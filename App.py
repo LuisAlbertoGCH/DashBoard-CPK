@@ -50,8 +50,16 @@ if not mostrar_top:
     unidades = st.sidebar.multiselect("Selecciona Unidades", sorted(df["Unidad"].dropna().unique()))
     tipos_carga = st.sidebar.multiselect("Tipo de Carga", sorted(df["Tipo de Carga"].unique()))
 
-    fecha_min = df["Fecha"].min().date()
-    fecha_max = df["Fecha"].max().date()
+    df["Fecha"] = pd.to_datetime(df["Fecha"], errors="coerce")
+
+    if df["Fecha"].dropna().empty:
+        st.error("El archivo cargado no contiene fechas válidas.")
+        st.stop()
+
+    fecha_min = df["Fecha"].dropna().min().date()
+    fecha_max = df["Fecha"].dropna().max().date()
+
+
     rango_fechas = st.sidebar.date_input("Rango de Fechas", [fecha_min, fecha_max])
 
     cpk_min = float(df["CPK total"].min())
