@@ -31,8 +31,6 @@ if uploaded_file is None:
     st.stop()
 
 df = pd.read_csv(uploaded_file)
-df["Fecha"] = pd.to_datetime(df["Fecha"], errors="coerce")
-df["CPK total"] = pd.to_numeric(df["CPK total"], errors="coerce")
 
 # --- Preprocesamiento ---
 df["Fecha"] = pd.to_datetime(df["Fecha"], errors="coerce")
@@ -54,7 +52,6 @@ if not mostrar_top:
 
     fecha_min = df["Fecha"].min().date()
     fecha_max = df["Fecha"].max().date()
-
     rango_fechas = st.sidebar.date_input("Rango de Fechas", [fecha_min, fecha_max])
 
     cpk_min = float(df["CPK total"].min())
